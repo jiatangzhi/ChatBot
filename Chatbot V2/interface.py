@@ -195,12 +195,11 @@ def english_main():
         r = requests.get(url, headers={"app_id": "4b11e51d", "app_key": "2f0e4476e477e029212ade1463481b90"})
 
         oxford_dict = json.loads(json.dumps(r.json()))
-
-        # print("json \n" + json.dumps(r.json()))
-
+        
         x = json.dumps(r.json())
+        
         error = '{"error": "No entry found matching supplied source_lang, word and provided filters"}'
-        error_array = "['the nineteenth letter of the alphabet.']"
+        
         if x != error:
 
             print("\n" + word_id + " belongs to the family of: " + oxford_dict["results"][0]["lexicalEntries"][0]["lexicalCategory"]["text"])
@@ -210,17 +209,10 @@ def english_main():
             choice = input("\nWould you like to see this word in a sentence?: ")
             if ("ye" in choice) or ("ok" in choice) or ("sure" in choice):
                 print("\nExample: ")
-            # if definition == error_array:
-            # print(oxford_dict["results"][0]["lexicalEntries"][0]["entries"][0]["senses"][0]["examples"][0]["text"] + "\n")
-            # else:
-            # print("None")
-                print(oxford_dict["results"][0]["lexicalEntries"][0]["entries"][0]["senses"][0]["examples"][0]["text"] + "\n")
-
-            # for i in oxford_dict["results"]:
-            #    for j in i["lexicalEntries"]:
-            #        for k in j["entries"]:
-            #            for v in k["senses"]:
-            #                print(v["definitions"])
+                if len(word_id) == 1:
+                    print("None")
+                else:
+                    print(oxford_dict["results"][0]["lexicalEntries"][0]["entries"][0]["senses"][0]["examples"][0]["text"] + "\n")
             else:
                 print("\nOkay " + name + ", maybe next time!")
             break
