@@ -19,11 +19,11 @@ def process_user_name(u_name):
 
 # function for the user to select what option they would like to select
 def process_user_option():
-    print("I am here to help you with either Maths, English or weather information!")
+    print("I am here to help you with either Maths, English, weather or restaurants information!")
     print("Selecting option 1 will allow me to help you with GCSE algebraic Maths.")
     print("Selecting option 2 will allow me to help you with English definitions.")
     print("Selecting option 3 will allow me to provide you with weather information.")
-
+    print("Selecting option 4 will allow me to provide you with restaurants information.")
 
 def process_maths_welcome():
     print("You have selected Maths! My aim is to teach you the basic principles of GCSE algebra.")
@@ -45,4 +45,12 @@ def process_maths_question():
 def process_weather_welcome():
     print("You have selected the weather option. My aim is to provide you with the relevant weather information for your chosen location")
     print("Shall we get started? ")
+    
+    
+def process_stores_welcome():
+    print("You have selected the stores searching option. My aim is to provide you with the relevant information about stores for your chosen location")
+    print("Shall we get started? ")
+    
+    
+
 

@@ -1,7 +1,7 @@
 """To accept user inputs from the keyboard"""
 
 from process import process_welcome_message, process_user_name, process_user_option
-from process import user_data, process_maths_welcome, process_english_welcome, process_maths_question
+from process import user_data, process_maths_welcome, process_english_welcome, process_maths_question, process_stores_welcome
 from process import process_weather_welcome
 from data import read_user, user
 import requests
@@ -72,12 +72,12 @@ def user_option():
     x = 0
     process_user_option()
     while x < 1:
-        selection = input("Please select either option 1, 2 or 3: ")
+        selection = input("Please select either option 1, 2, 3 or 4: ")
         empty_line()
         choice['selection'] = selection
         user.append(choice)
         selectionInt = int(selection)
-        if (selectionInt > 0) and (selectionInt < 4):
+        if (selectionInt > 0) and (selectionInt < 5):
             x = 1
         else:
             print("I'm sorry " + name + ", that is an invalid option! Please try again")
@@ -140,7 +140,24 @@ def selection():
             else:
                 print("Sorry " + name + ", that is not a valid selection, please try again!")
                 x = 0
-
+    
+    elif decision ==  4:
+        process_stores_welcome()
+        while x < 1:
+            continuation = input("")
+            empty_line()
+            if ('ye' in continuation) or ('sure' in continuation) or ('ok' in continuation) or ('not' in continuation):
+                print("Let's get started then!")
+                x = 1
+                empty_line()
+            elif ('no' in continuation) or ('na' in continuation):
+                print("Okay " + name + ", maybe next time.")
+                x = 1
+                exit()
+            else:
+                print("Sorry " + name + ", that is not a valid selection, please try again!")
+                x = 0
+    
 
 def maths_main():
     process_maths_question()
@@ -242,6 +259,70 @@ def weather_main():
         print("The weather in " + user_city, "can be described as: {}".format(description))
         if 'rain' in description:
             print("It's recommended to bring an umbrella!")
+            
+            
+def stores_main():
+    api_key="oNklsNMHwvGQKhObny3z2P4pqOyOk3tjRYSuXAxbMBC9xtyCdC83zhBSHRXJMMvue3h7GJ-G5yT1uK5wJy6uBF1CImm2sI4QjJ_1juOr0ZWOjZwogDrQ_jfGdtvBXXYx"
+    headers = {'Authorization': 'Bearer %s' % api_key}
+
+    parLocation = input("Please enter your city: ")
+    parTerm = input("What are you looking for?: ")
+    parLimit = input("How many results?: ")
+    open_now_answer = input("Would you like to search only opened stores?(T/F): ")
+
+    afirmitiveList = ["yes","Yes","YES","true","True","TRUE","yeah","Yeah","YEAH","ok","Ok","OK","Okay""okay","OKAY","T","t","y","Y","YES","okie","Okie","OKIE","sure","Sure","SURE","Yh","yh","YH"]
+    negativeList = ["no","No","NO","Nah","nah","NAH","false","False","FALSE","f","F","N","n","nope","Nope","NOPE"]
+    
+    if open_now_answer in afirmitiveList:
+        parOpen_now = True
+    elif open_now_answer in negativeList:
+        parOpen_now = False
+    else:
+        parOpen_now = False
+        print("Sorry, I could not understand that, I asume that the answers is no.")
+
+
+    url='https://api.yelp.com/v3/businesses/search'
+    params={'term': parTerm, 'location':"United kingdom " + parLocation, 'limit': parLimit, 'locale':"en_GB", 'open_now':parOpen_now}
+    req = requests.get(url, params=params, headers=headers)
+    parsed = json.loads(req.text)
+        #print(json.dumps(parsed, indent=4))
+    print(" ")
+    if "error" in parsed :
+        print(parsed["error"]["description"])
+        print(" ")
+        print("Please try again.")
+        print(" ")
+        return True
+    else :
+        #print(parsed)
+        #print("not inside")
+        businesses = parsed["businesses"]
+
+        for business in businesses:
+            print("Name:", business["name"])
+            print("Rating:", business["rating"])
+            print("Address:", " ".join(business["location"]["display_address"]))
+            print("Phone:", business["phone"])
+            print("\n")
+
+    
+        if len(businesses) < int(parLimit):
+            if len(businesses)==0:
+                print ("Sorry, I could not find any result for " + parTerm + ", please try again.")
+                print("")
+                return True
+            else:
+                print ("I could only find " + str(len(businesses)) + " results for " + parTerm)
+                return False
+        else:
+            print("I found " + str(len(businesses)) + " results for " + parTerm)
+            return False
+
+
+
+
+
 
 # Function to display result
 def display(result):

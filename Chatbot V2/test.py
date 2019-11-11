@@ -1,7 +1,7 @@
 """This is to run the program"""
 
 from interface import user_name, user_feeling, user_option
-from interface import selection, maths_main, choice, english_main, weather_main
+from interface import selection, maths_main, choice, english_main, weather_main, stores_main
 
 if __name__ == '__main__':
 
@@ -27,9 +27,15 @@ if __name__ == '__main__':
     if decision == 3:
         # run weather function
         weather_main()
+    if decision == 4:
+        # run stores function
+        restart = True
+        while restart :
+            restart = stores_main()
 
-
-
+def test():
+    print("hello")
+    return False
 
 
 
