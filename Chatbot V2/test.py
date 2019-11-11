@@ -33,9 +33,7 @@ if __name__ == '__main__':
         while restart :
             restart = stores_main()
 
-def test():
-    print("hello")
-    return False
+
 
 
 
