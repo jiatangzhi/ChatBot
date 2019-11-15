@@ -307,7 +307,7 @@ def english_main():
 def weather_main():
     # Importing user location information into function from dictionary
     location = user_location['location']
-    # Importing API into program
+    # Start of adapted code for API from: https://openweathermap.org/current 
     api_key = "7a23354318d9d429a7b41dd215826c42"
     link = 'http://api.openweathermap.org/data/2.5/weather?q={}&appid=7a23354318d9d429a7b41dd215826c42&units=metric'.format(
         location)
@@ -324,6 +324,7 @@ def weather_main():
 
     if data == error:
         print("I haven't heard of that location before!")
+        # end of adapted code from: https://openweathermap.org/current
 
     else:
         # Taking information from the API dictionary and using it to generate an intelligent response to the user based
